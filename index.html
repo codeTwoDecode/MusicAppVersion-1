@@ -104,8 +104,8 @@
         const prevSong = () => {
             // songIndex--;                     // useful but old trick
             songIndex = (songIndex - 1 + songsAPI.length) % songsAPI.length
-            // console.log("🚀 ~ prevSong ~ songIndex: ->>", songIndex);
-            loadSongs[songIndex];
+            console.log("🚀 ~ prevSong ~ songIndex: ->>", songIndex);
+            loadSongs(songsAPI[songIndex]);
             playMusic();
         };
 
