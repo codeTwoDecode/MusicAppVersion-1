@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- --------font awesome-6.6 CDN link start------- -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- --------font awesome-6.6 CDN link ends------- -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="main_div">
+        <div class="music_container">
+            <h2 id="title">MUSIC TITLE</h2>
+            <h3 id="artist">Music Artist</h3>
+            <div class="img_container">
+                <img src="./Images/Random_sampleMusic.jpg" alt="coverImage">
+            </div>
+            <!-- <audio src="./Music/Random_sampleMusic.mp3" controls></audio> -->
+
+            <!-- ------audio with custom controls------ -->
+            <audio src="./Music/Random_sampleMusic.mp3"></audio>
+
+            <div class="music_controls">
+                <i class="fa-solid fa-backward" id="prev" title="Previous"></i>
+                <i class="fa-solid fa-play main_button" id="playBtn" title="Play"></i>
+                <!-- <i class="fa-solid fa-pause" id="pause" title="Pause"></i> -->
+                <i class="fa-solid fa-forward" id="next" title="Next"></i>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+        const music = document.querySelector("audio");
+        const image = document.querySelector("img");
+        const playBtn = document.getElementById("playBtn");
+        const title = document.getElementById("title");
+        const artist = document.getElementById("artist");
+        const prev = document.getElementById("prev");
+        const next = document.getElementById("next");
+
+        let isPlaying = false;
+
+        const songsAPI = [
+            { name: "ImagineDragons_Demons", title: "Demons", artist: "Imagine Dragons" },
+            { name: "TheScript_HallOfFame", title: "Hall of Fame", artist: "The Script" },
+            { name: "ElgitDoda_Larg", title: "Larg", artist: "Elgit Doda" },
+            { name: "Random_sampleMusic", title: "Sample", artist: "Random" },
+        ]
+
+        // --------for play functionality---------
+        const playMusic = () => {
+            isPlaying = true;
+            music.play();
+            // Note- play() 	Starts playing the audio / video
+            playBtn.classList.replace('fa-play', 'fa-pause');
+            image.classList.add("anime");
+        }
+
+        // --------for pause functionality---------
+        const pauseMusic = () => {
+            isPlaying = false;
+            music.pause();
+            // Note- pause()	Pauses the currently playing audio / video
+            playBtn.classList.replace('fa-pause', 'fa-play');
+            image.classList.remove("anime");
+        }
+
+        // -----event on playButton--------
+        playBtn.addEventListener("click", () => {
+            isPlaying ? pauseMusic() : playMusic();
+        })
+
+
+
+        // >>>>>>>>>changing music data>>>>>>>>>>>
+        const loadSongs = (song) => {
+            title.textContent = song.title;
+            artist.textContent = song.artist;
+            music.src = `./Music/${song.name}.mp3`;
+            image.src = `./Images/${song.name}.jpg`;
+        };
+
+        // loadSongs(songsAPI[2]);
+
+        // ------next & prev button functionality--------
+        let songIndex = 0;
+
+        const nextSong = () => {
+            // songIndex++;                     // useful but old trick
+            songIndex = (songIndex + 1) % songsAPI.length
+            // console.log("🚀 ~ nextSong ~ songsAPI.length: ->>", songsAPI.length);
+            // console.log("🚀 ~ nextSong ~ songIndex: ->>", songIndex);
+            loadSongs(songsAPI[songIndex]);
+            playMusic();
+        };
+
+        const prevSong = () => {
+            // songIndex--;                     // useful but old trick
+            songIndex = (songIndex - 1 + songsAPI.length) % songsAPI.length
+            // console.log("🚀 ~ prevSong ~ songIndex: ->>", songIndex);
+            loadSongs[songIndex];
+            playMusic();
+        };
+
+        next.addEventListener("click", nextSong);
+        prev.addEventListener("click", prevSong);
+
+
+    </script>
+
+
+</body>
+
+</html>
